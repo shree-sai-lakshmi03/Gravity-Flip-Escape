@@ -1,0 +1,149 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-display: "Press Start 2P", ui-monospace, monospace;
+  --font-sans: "Chakra Petch", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.4rem;
+
+  /* Space-station palette: deep indigo void, cyan robot, amber cores */
+  --background: oklch(0.16 0.045 268);
+  --foreground: oklch(0.94 0.02 240);
+  --card: oklch(0.21 0.05 268);
+  --card-foreground: oklch(0.94 0.02 240);
+  --popover: oklch(0.19 0.05 268);
+  --popover-foreground: oklch(0.94 0.02 240);
+  --primary: oklch(0.82 0.16 195);
+  --primary-foreground: oklch(0.16 0.05 268);
+  --secondary: oklch(0.28 0.06 268);
+  --secondary-foreground: oklch(0.92 0.02 240);
+  --muted: oklch(0.26 0.05 268);
+  --muted-foreground: oklch(0.72 0.04 250);
+  --accent: oklch(0.82 0.17 78);
+  --accent-foreground: oklch(0.16 0.05 268);
+  --destructive: oklch(0.66 0.23 20);
+  --destructive-foreground: oklch(0.97 0.01 240);
+  --border: oklch(0.33 0.06 268);
+  --input: oklch(0.3 0.06 268);
+  --ring: oklch(0.82 0.16 195);
+
+  /* Canvas game palette (read by the engine) */
+  --g-bg: #0b1024;
+  --g-grid: rgba(120, 160, 255, 0.07);
+  --g-wall: #26305c;
+  --g-wall-top: #4a5aa8;
+  --g-player: #5eead4;
+  --g-core: #fbbf24;
+  --g-danger: #fb4570;
+  --g-exit: #7dd3fc;
+  --g-plat: #8b93d6;
+  --g-box: #b98a4f;
+  --g-beam: #a855f7;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(94, 234, 212, 0.09), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.11), transparent 45%);
+  }
+}
+
+@utility font-pixel {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+}
+
+@utility panel {
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(8px);
+}
+
+@utility btn-game {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+  cursor: pointer;
+}
+@utility btn-game-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: color-mix(in oklab, var(--primary) 70%, white);
+}
+
+.btn-game:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 -2px color-mix(in oklab, var(--primary) 45%, transparent);
+}
+.btn-game:active {
+  transform: translateY(0);
+}
+.btn-game:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+.scanline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(rgba(94, 234, 212, 0.06), transparent 60%);
+  animation: scan 6s linear infinite;
+}
